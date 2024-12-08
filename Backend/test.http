@@ -1,0 +1,561 @@
+### Environment Variables
+@baseUrl = http://localhost:5000/api
+@adminToken = your_admin_token_here
+@userToken = your_user_token_here
+@hotelOwnerToken = your_hotel_owner_token_here
+@carOwnerToken = your_car_owner_token_here
+
+### Authentication Routes
+
+# Register Admin
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Admin User",
+  "email": "admin@example.com",
+  "password": "admin123",
+  "role": "admin"
+}
+
+### Register Regular User
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "moawiz ",
+  "email": "moawiz22@gmail.com",
+  "password": "moawiz123",
+  "role": "user"
+}
+
+### Register Hotel Owner
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Hotel Owner",
+  "email": "hotel@example.com",
+  "password": "hotel123",
+  "role": "hotel_owner"
+}
+
+### Register Car Owner
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Car Owner",
+  "email": "car1@example.com",
+  "password": "car123",
+  "role": "car_owner"
+}
+
+### Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "moawiz@gmail.com",
+  "password": "moawiz123"
+}
+
+### Google OAuth Login
+GET {{baseUrl}}/auth/google/callback
+
+### Google Authentication Callback Test
+POST http://localhost:5000/api/auth/google/callback
+Content-Type: application/json
+Authorization: Bearer <Your-JWT-Token>
+
+{
+  "user": {
+    "id": "sampleUserId123",
+    "name": "John Doe",
+    "email": "johndoe@example.com",
+    "role": "user",
+    "profilePicture": "https://example.com/profile-picture.jpg"
+  }
+}
+PUT http://localhost:5000/api/trips/674b4960d09fa7f282bdfc8f
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDlkYzUzNDE2YmM1YjUwNTNjYzZmMCIsImlhdCI6MTczMzI0Nzk5NiwiZXhwIjoxNzM1ODM5OTk2fQ.cvudg7Tzh6syCOjHgULYU23OlBDp5iF53SbZpHBqHDU
+
+{
+  "title": "Updated Adventure in the Mountains",
+  "price": 17000
+}
+
+
+
+
+### Verify User (Admin only)
+PUT {{baseUrl}}/auth/verify/user_id_here
+Authorization: Bearer {{adminToken}}
+
+### Trip Routes
+
+# Get All Trips
+GET  http://localhost:5000/api/trips
+Content-Type: application/json
+//Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDlkYzUzNDE2YmM1YjUwNTNjYzZmMCIsImlhdCI6MTczMzI0Nzk5NiwiZXhwIjoxNzM1ODM5OTk2fQ.cvudg7Tzh6syCOjHgULYU23OlBDp5iF53SbZpHBqHDU
+
+
+
+### Get Single Trip
+GET {{baseUrl}}/trips/tripid
+
+### Fetch Trips
+GET http://localhost:5000/api/trips 
+Content-Type: application/json
+
+
+
+### Create Trip (Admin only)
+POST {{baseUrl}}/trips
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDlkYzUzNDE2YmM1YjUwNTNjYzZmMCIsImlhdCI6MTczMjk4NzIxNCwiZXhwIjoxNzM1NTc5MjE0fQ.0GwneLKNVToHqN6qo5-pJ95YgXd87Rcci5zE6-sdHVo
+Content-Type: application/json
+
+{
+  "title": "Beach Paradise",
+  "description": "Luxurious beach vacation in Maldives",
+  "destination": "Maldives",
+  "duration": 7,
+  "price": 2500,
+  "tripType": "weekly",
+  "startDate": "2024-01-01",
+  "endDate": "2024-01-07",
+  "maxParticipants": 20,
+  "images": ["url1", "url2"]
+}
+
+### Update Trip (Admin only)
+DELETE http://localhost:5000/api/trips/image/674b4960d09fa7f282bdfc8f/0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDlkYzUzNDE2YmM1YjUwNTNjYzZmMCIsImlhdCI6MTczMjk4NzIxNCwiZXhwIjoxNzM1NTc5MjE0fQ.0GwneLKNVToHqN6qo5-pJ95YgXd87Rcci5zE6-sdHVo
+
+
+### Delete Trip (Admin only)
+DELETE {{baseUrl}}/trips/trip_id_here
+Authorization: Bearer {{adminToken}}
+
+### Hotel Routes
+
+# Get All Hotels
+GET {{baseUrl}}/hotels/
+
+### Get Single Hotel
+GET {{baseUrl}}/hotels/hotel_id_here
+
+### Create Hotel (Hotel Owner only)
+POST {{baseUrl}}/hotels
+
+Content-Type: application/json
+
+{
+  "name": "Luxury Resort",
+  "description": "5-star luxury beach resort",
+  "location": {
+    "address": "123 Beach Road",
+    "city": "Male",
+    "country": "Maldives",
+    "coordinates": {
+      "latitude": 4.1755,
+      "longitude": 73.5093
+    }
+  },
+  "amenities": ["pool", "spa", "restaurant", "beach access"],
+  "images": ["url1", "url2"]
+}
+
+### Update Hotel
+PUT {{baseUrl}}/hotels/hotel_id_here
+Authorization: Bearer {{hotelOwnerToken}}
+Content-Type: application/json
+
+{
+  "amenities": ["pool", "spa", "restaurant", "beach access", "gym"]
+}
+
+### Verify Hotel (Admin only)
+PUT {{baseUrl}}/hotels/hotel_id_here/verify
+Authorization: Bearer {{adminToken}}
+
+### Delete Hotel
+DELETE {{baseUrl}}/hotels/hotel_id_here
+Authorization: Bearer {{hotelOwnerToken}}
+
+### Vehicle Routes
+
+# Get All Vehicles
+GET {{baseUrl}}/vehicles
+
+### Get Single Vehicle
+GET {{baseUrl}}/vehicles/vehicle_id_here
+
+### Create Vehicle (Car Owner only)
+POST {{baseUrl}}/vehicles
+Authorization: Bearer {{carOwnerToken}}
+Content-Type: application/json
+
+{
+  "make": "Toyota",
+  "model": "Land Cruiser",
+  "year": 2023,
+  "type": "suv",
+  "seats": 7,
+  "pricePerDay": 100,
+  "features": ["GPS", "Bluetooth", "Leather seats", "Sunroof"],
+  "location": {
+    "city": "Male",
+    "address": "456 Airport Road"
+  }
+}
+
+### Update Vehicle
+PUT {{baseUrl}}/vehicles/vehicle_id_here
+Authorization: Bearer {{carOwnerToken}}
+Content-Type: application/json
+
+{
+  "pricePerDay": 120,
+  "features": ["GPS", "Bluetooth", "Leather seats", "Sunroof", "360 Camera"]
+}
+
+### Verify Vehicle (Admin only)
+PUT {{baseUrl}}/vehicles/vehicle_id_here/verify
+Authorization: Bearer {{adminToken}}
+
+### Delete Vehicle
+DELETE {{baseUrl}}/vehicles/vehicle_id_here
+Authorization: Bearer {{carOwnerToken}}
+
+### Review Routes
+
+# Get All Reviews
+GET {{baseUrl}}/reviews
+
+### Create Review (User only)
+POST {{baseUrl}}/reviews
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "itemType": "hotel",
+  "item": "hotel_id_here",
+  "rating": 5,
+  "comment": "Amazing experience! The service was exceptional.",
+  "images": ["url1", "url2"]
+}
+
+### Delete Review
+DELETE {{baseUrl}}/reviews/review_id_here
+Authorization: Bearer {{userToken}}
+
+### Booking Routes
+
+# Get User's Bookings
+GET {{baseUrl}}/bookings
+Authorization: Bearer {{userToken}}
+
+### Create Booking (User only)
+POST {{baseUrl}}/bookings
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "bookingType": "trip",
+  "item": "trip_id_here",
+  "startDate": "2024-01-01",
+  "endDate": "2024-01-07",
+  "totalPrice": 2500,
+  "specialRequests": "Airport pickup needed"
+}
+
+### Update Booking Status (Admin only)
+PUT {{baseUrl}}/bookings/booking_id_here/status
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "status": "confirmed"
+}
+
+### Cancel Booking
+PUT {{baseUrl}}/bookings/booking_id_here/cancel
+Authorization: Bearer {{userToken}}
+
+### Blog Routes
+
+# Get All Blogs
+GET {{baseUrl}}/blogs
+
+### Get Single Blog
+GET {{baseUrl}}/blogs/blog_id_here
+
+### Create Blog (Admin only)
+POST {{baseUrl}}/blogs
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "title": "Top 10 Destinations for 2024",
+  "content": "Detailed blog content here...",
+  "featuredImage": "url_to_image",
+  "tags": ["travel", "destinations", "2024"]
+}
+
+### Update Blog (Admin only)
+PUT {{baseUrl}}/blogs/blog_id_here
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "title": "Updated: Top 10 Destinations for 2024",
+  "content": "Updated blog content..."
+}
+
+### Delete Blog (Admin only)
+DELETE {{baseUrl}}/blogs/blog_id_here
+Authorization: Bearer {{adminToken}}
+
+### Add Comment to Blog
+POST {{baseUrl}}/blogs/blog_id_here/comments
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "content": "Great article! Very informative."
+}
+
+
+### Get All Hotels
+DELETE http://localhost:5000/api/hotels/image/hotelid/image index
+Authorization: Bearer e
+
+
+### delete Hotel by ID
+DELETE http://localhost:5000/api/hotels/hotelid
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDlkYzUzNDE2YmM1YjUwNTNjYzZmMCIsImlhdCI6MTczMzQ0MTM2NSwiZXhwIjoxNzM2MDMzMzY1fQ.uifMKrti_drsDXwr04V4EYPx7xrH92EPpN2lT7331DU
+
+### Create Hotel
+POST http://localhost:5000/api/hotels
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDlkYzUzNDE2YmM1YjUwNTNjYzZmMCIsImlhdCI6MTczMzQ0MTM2NSwiZXhwIjoxNzM2MDMzMzY1fQ.uifMKrti_drsDXwr04V4EYPx7xrH92EPpN2lT7331DU
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="name"
+
+Luxury Hotel
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="description"
+
+A luxurious hotel with stunning views and top-tier amenities.
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="location"
+
+{"address": "123 Main St", "city": "New York", "country": "USA", "coordinates": {"latitude": 40.7128, "longitude": -74.0060}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="pricePerNight"
+
+250
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="amenities[]"
+
+wifi
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="amenities[]"
+
+pool
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="amenities[]"
+
+spa
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="amenities[]"
+
+gym
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="status"
+
+available
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="averageRating"
+
+4.5
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="images"; filename="image1.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/your/image1.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+
+
+
+### Update Hotel
+PUT http://localhost:5000/api/hotels/67523b16ec7bad22fe854da4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDlkYzUzNDE2YmM1YjUwNTNjYzZmMCIsImlhdCI6MTczMzQ0MTM2NSwiZXhwIjoxNzM2MDMzMzY1fQ.uifMKrti_drsDXwr04V4EYPx7xrH92EPpN2lT7331DU
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="name"
+
+Updated Luxury Hotel
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="description"
+
+An updated description for the luxury hotel with enhanced amenities.
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="location"
+
+{"address": "456 Another St", "city": "Los Angeles", "country": "USA", "coordinates": {"latitude": 34.0522, "longitude": -118.2437}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="pricePerNight"
+
+250
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="amenities[]"
+
+wifi
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="amenities[]"
+
+pool
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="amenities[]"
+
+spa
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="amenities[]"
+
+gym
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="status"
+
+available
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="averageRating"
+
+4.8
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="images"; filename="updated_image1.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/your/updated_image1.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="images"; filename="updated_image2.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/your/updated_image2.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+GET http://localhost:5000/api/hotels/<hotel_id>
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDlkYzUzNDE2YmM1YjUwNTNjYzZmMCIsImlhdCI6MTczMzQ0MTM2NSwiZXhwIjoxNzM2MDMzMzY1fQ.uifMKrti_drsDXwr04V4EYPx7xrH92EPpN2lT7331DU
+
+###
+GET http://localhost:5000/api/hotels
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDlkYzUzNDE2YmM1YjUwNTNjYzZmMCIsImlhdCI6MTczMzQ0MTM2NSwiZXhwIjoxNzM2MDMzMzY1fQ.uifMKrti_drsDXwr04V4EYPx7xrH92EPpN2lT7331DU
+
+
+### Get all rooms
+GET http://localhost:5000/api/rooms
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDlkYzUzNDE2YmM1YjUwNTNjYzZmMCIsImlhdCI6MTczMzQ0MTM2NSwiZXhwIjoxNzM2MDMzMzY1fQ.uifMKrti_drsDXwr04V4EYPx7xrH92EPpN2lT7331DU
+Accept: application/json
+
+### Get room by ID
+GET http://localhost:5000/api/rooms/{roomId}
+Authorization: Bearer YOUR_JWT_TOKEN
+Accept: application/json
+
+### Get rooms by hotel ID
+GET http://localhost:5000/api/rooms/hotel/67523b17ec7bad22fe854da8
+Authorization: Bearer YOUR_JWT_TOKEN
+Accept: application/json
+
+### Get all rooms
+GET http://localhost:5000/api/rooms
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDlkYzUzNDE2YmM1YjUwNTNjYzZmMCIsImlhdCI6MTczMzQ0MTM2NSwiZXhwIjoxNzM2MDMzMzY1fQ.uifMKrti_drsDXwr04V4EYPx7xrH92EPpN2lT7331DU
+Accept: application/json
+
+### Get room by ID
+GET http://localhost:5000/api/rooms/{roomId}
+Authorization: Bearer YOUR_JWT_TOKEN
+Accept: application/json
+
+### Get rooms by hotel ID
+GET http://localhost:5000/api/rooms/hotel/{hotelId}
+Authorization: Bearer YOUR_JWT_TOKEN
+Accept: application/json
+
+### Create a new room
+POST http://localhost:5000/api/rooms
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDlkYzUzNDE2YmM1YjUwNTNjYzZmMCIsImlhdCI6MTczMzQ0MTM2NSwiZXhwIjoxNzM2MDMzMzY1fQ.uifMKrti_drsDXwr04V4EYPx7xrH92EPpN2lT7331DU
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="hotel"
+
+67523b17ec7bad22fe854da8
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="roomType"
+
+Deluxe
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="pricePerNight"
+
+100
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="maxOccupancy"
+
+2
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="amenities"
+
+["WiFi", "TV", "Mini Bar"]
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="images"; filename="room-image.jpg"
+Content-Type: image/jpeg
+
+<binary file content here>
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+
+### Update a room
+PUT http://localhost:5000/api/rooms/67525497ee703de425f1f0de
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NDlkYzUzNDE2YmM1YjUwNTNjYzZmMCIsImlhdCI6MTczMzQ0MTM2NSwiZXhwIjoxNzM2MDMzMzY1fQ.uifMKrti_drsDXwr04V4EYPx7xrH92EPpN2lT7331DU
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="roomType"
+
+Updated Room Type
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="pricePerNight"
+
+150
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="maxOccupancy"
+
+3
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="availability"
+
+false
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="amenities"
+
+["WiFi", "AC", "Mini Bar", "TV"]
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="images"; filename="updated-room-image.jpg"
+Content-Type: image/jpeg
+
+<binary file content here>
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+### Delete a room
+DELETE http://localhost:5000/api/rooms/{roomId}
+Authorization: Bearer YOUR_JWT_TOKEN
+Accept: application/json
